@@ -1,11 +1,13 @@
 package bank;
 
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import java.sql.Connection;
 
@@ -51,7 +53,7 @@ public class BankManagerImpl implements BankManager {
     	Statement statement = connection.createStatement();
     	//int Result = statement.executeUpdate("CREATE DATABASE IF NOT EXISTS bank");
     	
-    	String sql = "CREATE TABLE IF NOT EXISTS ACCOUNT  (id INTEGER not NULL, owner VARCHAR(255), balance INTEGER,PRIMARY KEY(id))";
+    	String sql = "CREATE TABLE IF NOT EXISTS ACCOUNT  (id INTEGER not NULL, owner VARCHAR(255), balance DOUBLE,PRIMARY KEY(id))";
     	statement.executeUpdate(sql);
     }
 
@@ -59,10 +61,12 @@ public class BankManagerImpl implements BankManager {
     public boolean createAccount(int number) throws SQLException {
 	// TODO Auto-generated method stub
     	PreparedStatement pst = null;
-    	int balance=27;
-         pst = connection.prepareStatement("INSERT INTO ACCOUNT(id) VALUES(?)");
+    	//Random rand = new Random();
+    	double balance=0;
+    	//balance=rand.nextInt(5000);
+         pst = connection.prepareStatement("INSERT INTO ACCOUNT(id,balance) VALUES(?,?)");
          pst.setInt(1,number);
-         //	pst.setInt(2,balance);
+         	pst.setDouble(2,balance);
          pst.executeUpdate();
 	return false;
     }
@@ -70,7 +74,13 @@ public class BankManagerImpl implements BankManager {
     @Override
     public double getBalance(int number) throws SQLException {
 	// TODO Auto-generated method stub
-	return 0;
+    	PreparedStatement pst = null;
+    	ResultSet rs = null;
+    	pst = connection.prepareStatement("SELECT balance FROM ACCOUNT where id = ?");
+    	pst.setInt(1,number);
+    	rs = pst.executeQuery();
+    	
+    	return rs.getDouble(1);
     }
 
     @Override
