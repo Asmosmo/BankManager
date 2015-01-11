@@ -77,8 +77,8 @@ public interface BankManager {
      * @param to
      *            the number of the credited account
      * @param amount
-     *            the amount to transfert
-     * @return <code>true</code> if the method succeeds and <code>false</code>
+	     *            the amount to transfert
+	     * @return <code>true</code> if the method succeeds and <code>false</code>
      *         otherwise
      * @throws SQLException
      *             if an SQL exception occurs
